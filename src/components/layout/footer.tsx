@@ -1,6 +1,7 @@
 import { personal } from "@/data/resume";
 import { Mail } from "lucide-react";
 import { GithubIcon, LinkedinIcon } from "@/components/ui/icons";
+import { ObfuscatedEmail } from "@/components/ui/obfuscated-email";
 
 export function Footer() {
   const year = new Date().getFullYear();
@@ -12,13 +13,12 @@ export function Footer() {
           © {year} {personal.name}. Built with Next.js & Tailwind CSS.
         </p>
         <div className="flex items-center gap-5">
-          <a
-            href={`mailto:${personal.email}`}
+          <ObfuscatedEmail
             aria-label="Email"
             className="text-muted transition-colors hover:text-accent"
           >
             <Mail size={16} />
-          </a>
+          </ObfuscatedEmail>
           <a
             href={personal.linkedin}
             target="_blank"

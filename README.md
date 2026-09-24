@@ -37,6 +37,8 @@ public/resume/Esakkimuthu_Sivaraman_Backend_Engineer.pdf
 
 (keep the same filename, or update `resumeUrl` in `src/data/resume.ts`).
 
+The email address is defined once in `src/data/resume.ts` and rendered everywhere through `src/components/ui/obfuscated-email.tsx`, which only assembles the real `mailto:` link client-side (after the page loads) rather than baking it into the static HTML — this meaningfully cuts down on automated email scraping. There is no phone number anywhere in the app by design.
+
 ## Building a static export
 
 ```bash
@@ -64,17 +66,27 @@ The workflow uses `actions/configure-pages` to detect the correct base path auto
 
 `Esakkimuthu_Sivaraman_Backend_Engineer.pdf` (in the project root) is the source of truth for both the site's downloadable resume and the content in `src/data/resume.ts`. To update either, edit that PDF's source document, re-export it, and overwrite both the root copy and `public/resume/Esakkimuthu_Sivaraman_Backend_Engineer.pdf`.
 
+## SEO / social sharing
+
+- `src/app/opengraph-image.png` — the image shown when the link is shared on LinkedIn, Slack, iMessage, etc. It's a static PNG (not generated per-request) so it always gets served with the correct `image/png` content type on GitHub Pages. Regenerate it by editing and briefly re-adding an `opengraph-image.tsx` (using `next/og`'s `ImageResponse`) locally, running `npm run build`, and copying the generated `out/opengraph-image.png` back over this file.
+- `src/app/manifest.ts`, `src/app/robots.ts`, `src/app/sitemap.ts` — standard Next.js metadata file conventions, all statically generated at build time.
+- `src/lib/site.ts` — the single source of truth for the canonical site URL, used by the metadata above.
+
 ## Project structure
 
 ```
 src/
-  app/                 App Router entry: layout, page, metadata, global styles
+  app/                 App Router entry: layout, page, metadata, global styles,
+                       manifest/robots/sitemap, OG image
   components/
     layout/            Chrome shared across the whole page (Navbar, Footer)
     sections/          One file per page section (Hero, About, Skills, ...)
-    ui/                 Small reusable primitives (Reveal, SectionHeading, icons, ThemeToggle, GradientMesh)
+    ui/                 Small reusable primitives (Reveal, SectionHeading, icons,
+                       ThemeToggle, GradientMesh, ObfuscatedEmail)
   data/
     resume.ts          Single source of truth for all content on the site
+  lib/
+    site.ts            Site-level config (canonical URL)
 public/
   resume/              Downloadable resume PDF
 ```

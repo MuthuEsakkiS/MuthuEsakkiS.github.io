@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/ui/theme-provider";
@@ -6,6 +6,7 @@ import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { GradientMesh } from "@/components/ui/gradient-mesh";
 import { personal } from "@/data/resume";
+import { SITE_URL } from "@/lib/site";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -17,10 +18,8 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-const siteUrl = "https://muthuesakkis.github.io";
-
 export const metadata: Metadata = {
-  metadataBase: new URL(siteUrl),
+  metadataBase: new URL(SITE_URL),
   title: `${personal.name} — ${personal.role}`,
   description: personal.tagline,
   keywords: [
@@ -36,7 +35,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: `${personal.name} — ${personal.role}`,
     description: personal.tagline,
-    url: siteUrl,
+    url: SITE_URL,
     siteName: `${personal.name} | Portfolio`,
     type: "profile",
   },
@@ -51,6 +50,14 @@ export const metadata: Metadata = {
   },
 };
 
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#fafafa" },
+    { media: "(prefers-color-scheme: dark)", color: "#05060a" },
+  ],
+  colorScheme: "light dark",
+};
+
 const personJsonLd = {
   "@context": "https://schema.org",
   "@type": "Person",
@@ -58,12 +65,11 @@ const personJsonLd = {
   jobTitle: personal.role,
   description: personal.summary,
   email: personal.email,
-  telephone: personal.phone,
   address: {
     "@type": "PostalAddress",
     addressLocality: personal.location,
   },
-  url: siteUrl,
+  url: SITE_URL,
   sameAs: [personal.linkedin, personal.github],
 };
 

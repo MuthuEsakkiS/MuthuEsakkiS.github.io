@@ -1,26 +1,11 @@
 import { SectionHeading } from "@/components/ui/section-heading";
 import { Reveal } from "@/components/ui/reveal";
+import { ObfuscatedEmail, EmailContactCard } from "@/components/ui/obfuscated-email";
 import { personal } from "@/data/resume";
-import { FileDown, Mail, MapPin, Phone } from "lucide-react";
+import { FileDown, Mail, MapPin } from "lucide-react";
 import { GithubIcon, LinkedinIcon } from "@/components/ui/icons";
 
-const MAILTO_HREF = `mailto:${personal.email}?subject=${encodeURIComponent(
-  "Job opportunity / Let's connect",
-)}`;
-
-const contactMethods = [
-  {
-    icon: Mail,
-    label: "Email",
-    value: personal.email,
-    href: MAILTO_HREF,
-  },
-  {
-    icon: Phone,
-    label: "Phone",
-    value: personal.phone,
-    href: `tel:${personal.phone.replace(/\s+/g, "")}`,
-  },
+const socialMethods = [
   {
     icon: LinkedinIcon,
     label: "LinkedIn",
@@ -34,6 +19,9 @@ const contactMethods = [
     href: personal.github,
   },
 ];
+
+const cardClassName =
+  "flex items-center gap-4 rounded-xl border border-border bg-surface p-4 transition-all duration-300 ease-out hover:-translate-y-0.5 hover:border-accent hover:shadow-lg hover:shadow-accent/5";
 
 export function Contact() {
   return (
@@ -51,20 +39,12 @@ export function Contact() {
               <MapPin size={14} />
               {personal.location} (current) · Open to opportunities anywhere
             </div>
-            <a
-              href={MAILTO_HREF}
-              className="text-2xl font-semibold text-gradient sm:text-3xl"
-            >
-              {personal.email}
-            </a>
+            <ObfuscatedEmail className="text-2xl font-semibold text-gradient sm:text-3xl" />
             <div className="mt-2 flex flex-wrap items-center justify-center gap-4">
-              <a
-                href={MAILTO_HREF}
-                className="inline-flex items-center gap-2 rounded-full bg-foreground px-6 py-3 text-sm font-medium text-background transition-transform hover:-translate-y-0.5"
-              >
+              <ObfuscatedEmail className="inline-flex items-center gap-2 rounded-full bg-foreground px-6 py-3 text-sm font-medium text-background transition-transform hover:-translate-y-0.5">
                 <Mail size={16} />
                 Email me
-              </a>
+              </ObfuscatedEmail>
               <a
                 href={personal.resumeUrl}
                 download
@@ -77,20 +57,20 @@ export function Contact() {
           </div>
         </Reveal>
 
-        <div className="mx-auto mt-6 grid max-w-3xl gap-4 sm:grid-cols-2">
-          {contactMethods.map((method, index) => {
+        <div className="mx-auto mt-6 grid max-w-3xl gap-4 sm:grid-cols-3">
+          <Reveal delay={0}>
+            <EmailContactCard className={cardClassName} />
+          </Reveal>
+
+          {socialMethods.map((method, index) => {
             const Icon = method.icon;
             return (
-              <Reveal key={method.label} delay={index * 0.06}>
+              <Reveal key={method.label} delay={(index + 1) * 0.06}>
                 <a
                   href={method.href}
-                  target={method.href.startsWith("http") ? "_blank" : undefined}
-                  rel={
-                    method.href.startsWith("http")
-                      ? "noopener noreferrer"
-                      : undefined
-                  }
-                  className="flex items-center gap-4 rounded-xl border border-border bg-surface p-4 transition-all duration-300 ease-out hover:-translate-y-0.5 hover:border-accent hover:shadow-lg hover:shadow-accent/5"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={cardClassName}
                 >
                   <div className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-surface-2 text-accent">
                     <Icon size={16} />

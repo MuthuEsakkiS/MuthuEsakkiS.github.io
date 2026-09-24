@@ -9,7 +9,7 @@ significantly limits its attack surface.
 If you find a security issue with this site (e.g. a dependency vulnerability, an
 exposed secret, or a misconfiguration), please open a private report via
 [GitHub Security Advisories](../../security/advisories/new) for this repository,
-or email **esakimuthusivaraman@gmail.com** directly.
+or email **esakkimuthu.sivaraman@gmail.com** directly.
 
 Please do not open a public issue for security-sensitive reports.
 

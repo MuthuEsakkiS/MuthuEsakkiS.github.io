@@ -7,8 +7,7 @@ export const personal = {
   tagline:
     "Backend Engineer building scalable Python & Django platforms for compliance, healthcare, and EdTech.",
   location: "Chennai, India",
-  email: "esakimuthusivaraman@gmail.com",
-  phone: "+91 8870417101",
+  email: "esakkimuthu.sivaraman@gmail.com",
   linkedin: "https://linkedin.com/in/esakkimuthusivaraman",
   github: "https://github.com/MuthuEsakkiS",
   resumeUrl: "/resume/Esakkimuthu_Sivaraman_Backend_Engineer.pdf",
