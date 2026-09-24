@@ -1,0 +1,146 @@
+@import "tailwindcss";
+
+/* Enable manual (class-based) dark mode toggling via next-themes. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  --background: #fafafa;
+  --foreground: #0b1120;
+  --surface: #ffffff;
+  --surface-2: #f1f5f9;
+  --border: #e2e8f0;
+  --muted: #56637a;
+  --accent: #4f46e5;
+  --accent-2: #0891b2;
+  --accent-3: #c026d3;
+}
+
+.dark {
+  --background: #05060a;
+  --foreground: #e7e9ee;
+  --surface: #0c0e16;
+  --surface-2: #11131d;
+  --border: #1d212e;
+  --muted: #8b93a7;
+  --accent: #818cf8;
+  --accent-2: #22d3ee;
+  --accent-3: #e879f9;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-border: var(--border);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --color-accent-2: var(--accent-2);
+  --color-accent-3: var(--accent-3);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+}
+
+/* Offset anchored sections so they clear the sticky navbar. */
+section[id] {
+  scroll-margin-top: 5.5rem;
+}
+
+::selection {
+  background: color-mix(in srgb, var(--accent) 35%, transparent);
+  color: var(--foreground);
+}
+
+* {
+  border-color: var(--border);
+}
+
+.bg-grid {
+  background-image:
+    linear-gradient(to right, color-mix(in srgb, var(--foreground) 6%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in srgb, var(--foreground) 6%, transparent) 1px, transparent 1px);
+  background-size: 44px 44px;
+}
+
+.text-gradient {
+  background-image: linear-gradient(90deg, var(--accent), var(--accent-2));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Ambient, site-wide gradient-mesh background. Pure CSS keyframes (no JS,
+   no images/video) so it stays fast while still reading as "alive".
+   Kept intentionally small + lightly blurred: large blur radii animated
+   continuously (especially underneath a `backdrop-filter` navbar) force
+   the browser to recompute an expensive blurred composite every frame,
+   which was the cause of the app-wide input/click lag. */
+.mesh-blob {
+  position: absolute;
+  width: clamp(220px, 30vw, 420px);
+  height: clamp(220px, 30vw, 420px);
+  border-radius: 9999px;
+  filter: blur(50px);
+  opacity: 0.14;
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+@media (min-width: 768px) {
+  .mesh-blob {
+    filter: blur(70px);
+  }
+}
+
+.dark .mesh-blob {
+  opacity: 0.18;
+}
+
+@keyframes mesh-drift-a {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(6vw, 8vh) scale(1.15);
+  }
+}
+
+@keyframes mesh-drift-b {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(-7vw, 5vh) scale(1.1);
+  }
+}
+
+@keyframes mesh-drift-c {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(5vw, -6vh) scale(1.12);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .mesh-blob {
+    animation: none !important;
+  }
+}
